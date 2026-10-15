@@ -7,7 +7,7 @@ import { SensorData } from './sensor/sensor.entity';
 import { SensorService } from './sensor/sensor.service';
 import { AuthModule } from './auth/auth.module';
 
-import * as Database from 'better-sqlite3';
+import Database from 'better-sqlite3';
 
 @Module({
   imports: [
