@@ -7,6 +7,8 @@ import { SensorData } from './sensor/sensor.entity';
 import { SensorService } from './sensor/sensor.service';
 import { AuthModule } from './auth/auth.module';
 
+import * as Database from 'better-sqlite3';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -18,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
         database: config.get<string>('DATABASE_PATH', 'sensor_data.sqlite'),
         entities: [SensorData],
         synchronize: true, // auto-creates database schema
+        driver: Database,
       }),
       inject: [ConfigService],
     }),
