@@ -14,8 +14,9 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
-        type: 'better-sqlite3' as const,
-        database: config.get<string>('DATABASE_PATH', 'sensor_data.sqlite'),
+        type: 'sqljs' as const,
+        location: config.get<string>('DATABASE_PATH', 'sensor_data.sqlite'),
+        autoSave: true,
         entities: [SensorData],
         synchronize: true, // auto-creates database schema
       }),
