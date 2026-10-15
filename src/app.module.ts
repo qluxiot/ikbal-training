@@ -13,13 +13,18 @@ import { AuthModule } from './auth/auth.module';
     ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
-        type: 'sqljs' as const,
-        location: config.get<string>('DATABASE_PATH', 'sensor_data.sqlite'),
-        autoSave: true,
-        entities: [SensorData],
-        synchronize: true, // auto-creates database schema
-      }),
+      useFactory: async (config: ConfigService) => {
+        const initSqlJs = require('sql.js');
+        const SQL = await initSqlJs();
+        return {
+          type: 'sqljs' as const,
+          driver: SQL,
+          location: config.get<string>('DATABASE_PATH', 'sensor_data.sqlite'),
+          autoSave: true,
+          entities: [SensorData],
+          synchronize: true, // auto-creates database schema
+        };
+      },
       inject: [ConfigService],
     }),
     SensorModule,
